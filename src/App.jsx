@@ -1,21 +1,20 @@
 /*************************************************************************************************
-* Sam MedLab - Final & Complete Application Code
-* Version: 5.0 (All Features Included)
+* Sam MedLab - Final Application Code (As per Project PDF)
+* Version: 6.0
 *
 * Features:
-* - Searchable Medical Test Database
-* - Graduation Research Section
-* - AI Assistant (SAM-GIMS) powered by Gemini API
-* - Digital Store for Medical Products
+* - SAMMEDLAB: Core Medical Test Reference
+* - SAMGIMS: AI Assistant powered by Gemini API
+* - SAMGARD: Graduation Research Platform
+* - SAMSHOPPING: Digital Store for Medical Products
 *
-* Instructions: This is the final code to be pasted into the `src/App.jsx` file
-* as per the developer guide.
+* Instructions: This is the final code to be pasted into the `src/App.jsx` file.
 *************************************************************************************************/
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Search, Beaker, Droplet, TestTube, Stethoscope, ChevronRight, X, Bug, GraduationCap, Sparkles, Send, ShoppingCart } from 'lucide-react';
 
-// --- Database & Icons (Truncated for brevity in this comment block) ---
+// --- Database & Icons ---
 const labTestsData = [
     { id: 1, category: "أمراض الدم", name: "صورة الدم الكاملة (CBC)", description: "فحص شامل يقيم الأنواع المختلفة من الخلايا في الدم: كريات الدم الحمراء، كريات الدم البيضاء، والصفائح الدموية.", specimen: "دم كامل", tube: "أنبوب بنفسجي (EDTA)", preparation: "لا يتطلب صيام.", normalRanges: [{ label: "كريات الدم البيضاء (WBC)", value: "4,500-11,000 خلية/مكل" }, { label: "كريات الدم الحمراء (RBC)", value: "الرجال: 4.7-6.1 م/مكل، النساء: 4.2-5.4 م/مكل" }, { label: "الهيموجلوبين (Hb)", value: "الرجال: 13.8-17.2 غم/دل، النساء: 12.1-15.1 غم/دل" }, { label: "الهيماتوكريت (Hct)", value: "الرجال: 40.7-50.3%، النساء: 36.1-44.3%" }, { label: "الصفائح الدموية (Platelets)", value: "150,000-450,000/مكل" },], interpretation: "القيم غير الطبيعية قد تشير إلى فقر الدم، العدوى، الالتهابات، اضطرابات النزيف أو أمراض أخرى." },
     { id: 7, category: "أمراض الدم", name: "سرعة ترسيب الدم (ESR)", description: "يقيس سرعة ترسب خلايا الدم الحمراء في أنبوب اختبار خلال ساعة واحدة. وهو مؤشر غير محدد للالتهاب.", specimen: "دم كامل", tube: "أنبوب أسود (Sodium Citrate) أو بنفسجي (EDTA)", preparation: "لا يتطلب صيام.", normalRanges: [{ label: "الرجال (< 50 سنة)", value: "0-15 مم/ساعة" }, { label: "النساء (< 50 سنة)", value: "0-20 مم/ساعة" },], interpretation: "ارتفاع القيمة يشير إلى وجود التهاب في الجسم، مثل حالات العدوى، أمراض المناعة الذاتية، أو بعض أنواع السرطان." },
@@ -65,7 +64,7 @@ const TestDetailView = ({ test, onClose }) => {
     </div>
   );
 };
-const ResearchModal = ({ isOpen, onClose }) => {
+const SamGardModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 animate-fadeIn" onClick={onClose}>
@@ -73,9 +72,9 @@ const ResearchModal = ({ isOpen, onClose }) => {
                 <button onClick={onClose} className="absolute top-4 left-4 text-gray-400 hover:text-gray-700"><X size={24} /></button>
                 <div className="flex items-center gap-4 mb-6">
                     <div className="bg-blue-100 p-3 rounded-full"><GraduationCap className="w-8 h-8 text-blue-600" /></div>
-                    <h3 className="text-2xl font-bold text-blue-800">قسم أبحاث التخرج والمقالات</h3>
+                    <h3 className="text-2xl font-bold text-blue-800">SAMGARD - أبحاث التخرج</h3>
                 </div>
-                <p className="text-gray-600 mb-6 leading-relaxed">هذا القسم مخصص لعرض ومشاركة أبحاث التخرج والمقالات العلمية الهامة في مجال المختبرات الطبية. يهدف إلى أن يكون مصدراً ملهماً للطلاب والباحثين للاطلاع على أحدث الدراسات والمواضيع البحثية في اليمن والوطن العربي.</p>
+                <p className="text-gray-600 mb-6 leading-relaxed">منصة متخصصة لدعم مشاريع التخرج الطبية، توفر للطلاب والباحثين إمكانية الاطلاع على نماذج أبحاث ومشاريع سابقة والحصول على أفكار مبتكرة، بالإضافة إلى إرشادات علمية تساعدهم في إعداد مشاريعهم الأكاديمية بشكل احترافي.</p>
                 <div className="space-y-4">
                     <div className="p-4 border rounded-lg bg-gray-50"><h4 className="font-bold text-lg text-gray-800">دراسة حول انتشار فقر الدم بعوز الحديد لدى الأطفال في اليمن</h4><p className="text-sm text-gray-500 mt-1">الباحث: د. أحمد قاسم | تاريخ النشر: 2023</p></div>
                     <div className="p-4 border rounded-lg bg-gray-50"><h4 className="font-bold text-lg text-gray-800">تقييم دقة اختبارات التشخيص السريع للملاريا في المناطق الموبوءة</h4><p className="text-sm text-gray-500 mt-1">الباحث: أ. فاطمة علي | تاريخ النشر: 2022</p></div>
@@ -86,8 +85,8 @@ const ResearchModal = ({ isOpen, onClose }) => {
         </div>
     );
 };
-const AiAssistantModal = ({ isOpen, onClose }) => {
-    const [messages, setMessages] = useState([{ sender: 'ai', text: 'أهلاً بك في المساعد الذكي SAM-GIMS. أنا هنا للإجابة على جميع أسئلتك في مجال المختبرات الطبية. كيف يمكنني مساعدتك اليوم؟' }]);
+const SamGimsModal = ({ isOpen, onClose }) => {
+    const [messages, setMessages] = useState([{ sender: 'ai', text: 'أهلاً بك في المساعد الذكي SAMGIMS. أنا هنا للإجابة على جميع أسئلتك في مجال المختبرات الطبية. كيف يمكنني مساعدتك اليوم؟' }]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const chatEndRef = useRef(null);
@@ -126,7 +125,7 @@ const AiAssistantModal = ({ isOpen, onClose }) => {
                 <header className="flex items-center justify-between p-4 border-b">
                     <div className="flex items-center gap-3">
                         <div className="bg-gradient-to-br from-teal-400 to-blue-500 p-2 rounded-full shadow-md"><Sparkles className="w-6 h-6 text-white" /></div>
-                        <h3 className="text-xl font-bold text-gray-800">SAM-GIMS</h3>
+                        <h3 className="text-xl font-bold text-gray-800">SAMGIMS</h3>
                     </div>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-700"><X size={24} /></button>
                 </header>
@@ -157,7 +156,7 @@ const AiAssistantModal = ({ isOpen, onClose }) => {
         </div>
     );
 };
-const StoreModal = ({ isOpen, onClose }) => {
+const SamShoppingModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
     const digitalProducts = [
         { id: 1, title: "كتاب إلكتروني: أساسيات علم الدم", description: "شرح شامل ومبسط لأساسيات علم الدم والفحوصات المتعلقة به، مثالي للطلاب والمبتدئين.", price: "15.00 $", imageUrl: "https://placehold.co/600x400/0d9488/ffffff?text=كتاب إلكتروني" },
@@ -170,9 +169,9 @@ const StoreModal = ({ isOpen, onClose }) => {
                 <button onClick={onClose} className="absolute top-4 left-4 text-gray-400 hover:text-gray-700"><X size={24} /></button>
                 <div className="flex items-center gap-4 mb-6">
                     <div className="bg-green-100 p-3 rounded-full"><ShoppingCart className="w-8 h-8 text-green-600" /></div>
-                    <h3 className="text-2xl font-bold text-gray-800">المتجر الرقمي الطبي</h3>
+                    <h3 className="text-2xl font-bold text-gray-800">SAMSHOPPING - المتجر الرقمي</h3>
                 </div>
-                <p className="text-gray-600 mb-8">تصفح مجموعتنا المختارة من المنتجات الرقمية التي ستساعدك في رحلتك التعليمية والمهنية في عالم المختبرات الطبية.</p>
+                <p className="text-gray-600 mb-8">متجر رقمي متكامل مخصص لعرض وبيع المعدات والأجهزة الطبية، واللوازم المخبرية، بالإضافة إلى المنتجات الطبية الرقمية مثل الكتيبات والدورات التدريبية.</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {digitalProducts.map(product => (
                         <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
@@ -199,9 +198,9 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [selectedTest, setSelectedTest] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isResearchModalOpen, setIsResearchModalOpen] = useState(false);
-  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
-  const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
+  const [isSamGardModalOpen, setIsSamGardModalOpen] = useState(false);
+  const [isSamGimsModalOpen, setIsSamGimsModalOpen] = useState(false);
+  const [isSamShoppingModalOpen, setIsSamShoppingModalOpen] = useState(false);
   const categories = useMemo(() => ['الكل', ...new Set(labTestsData.map(test => test.category))], []);
   const filteredTests = useMemo(() => {
     return labTestsData
@@ -225,14 +224,14 @@ export default function App() {
             <div className="flex items-center gap-3">
                  <div className="bg-teal-500 p-3 rounded-xl shadow-md"><Beaker className="w-7 h-7 text-white" /></div>
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-bold text-teal-800">Sam MedLab</h1>
-                    <p className="text-md text-gray-500 -mt-1">REFERENCE</p>
+                    <h1 className="text-2xl md:text-3xl font-bold text-teal-800">SAMMEDLAB</h1>
+                    <p className="text-md text-gray-500 -mt-1">مرجع الفحوصات الطبية الذكي</p>
                 </div>
             </div>
             <div className="flex items-center gap-2">
-                <button onClick={() => setIsStoreModalOpen(true)} className="p-2 rounded-full hover:bg-gray-200 transition-colors" title="المتجر الرقمي"><ShoppingCart className="w-6 h-6 text-green-600" /></button>
-                <button onClick={() => setIsAiModalOpen(true)} className="p-2 rounded-full hover:bg-gray-200 transition-colors" title="المساعد الذكي SAM-GIMS"><Sparkles className="w-6 h-6 text-teal-500" /></button>
-                <button onClick={() => setIsResearchModalOpen(true)} className="p-2 rounded-full hover:bg-gray-200 transition-colors" title="أبحاث التخرج"><GraduationCap className="w-6 h-6 text-gray-600" /></button>
+                <button onClick={() => setIsSamShoppingModalOpen(true)} className="p-2 rounded-full hover:bg-gray-200 transition-colors" title="SAMSHOPPING"><ShoppingCart className="w-6 h-6 text-green-600" /></button>
+                <button onClick={() => setIsSamGimsModalOpen(true)} className="p-2 rounded-full hover:bg-gray-200 transition-colors" title="SAMGIMS"><Sparkles className="w-6 h-6 text-teal-500" /></button>
+                <button onClick={() => setIsSamGardModalOpen(true)} className="p-2 rounded-full hover:bg-gray-200 transition-colors" title="SAMGARD"><GraduationCap className="w-6 h-6 text-gray-600" /></button>
                 <button className="lg:hidden p-2 rounded-md hover:bg-gray-200" onClick={() => setIsSidebarOpen(true)}><MenuIcon className="w-6 h-6" /></button>
             </div>
         </header>
@@ -271,16 +270,16 @@ export default function App() {
         </div>
       </div>
       {selectedTest && <TestDetailView test={selectedTest} onClose={() => setSelectedTest(null)} />}
-      <ResearchModal isOpen={isResearchModalOpen} onClose={() => setIsResearchModalOpen(false)} />
-      <AiAssistantModal isOpen={isAiModalOpen} onClose={() => setIsAiModalOpen(false)} />
-      <StoreModal isOpen={isStoreModalOpen} onClose={() => setIsStoreModalOpen(false)} />
+      <SamGardModal isOpen={isSamGardModalOpen} onClose={() => setIsSamGardModalOpen(false)} />
+      <SamGimsModal isOpen={isSamGimsModalOpen} onClose={() => setIsSamGimsModalOpen(false)} />
+      <SamShoppingModal isOpen={isSamShoppingModalOpen} onClose={() => setIsSamShoppingModalOpen(false)} />
     </div>
   );
 }
 
 // --- Helper Components ---
 const MenuIcon = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
   </svg>
 );
